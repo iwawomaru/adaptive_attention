@@ -1,10 +1,13 @@
 <launch>
 
-  <node name="raspicam" pkg="raspicam" type="raspicam_node"
-    <!--param name="pixel format" value="yuyv"/-->
+  <group ns="raspi_cam">
+  <node name="raspicam_raw" pkg="raspicam" type="raspicam_node">
+    <!-- param name="pixel format" value="yuyv"/ -->
+    <!-- param name="framerate" value="60"/ -->
     <param name="width" value="640"/>
     <param name="height" value="480"/>
   </node>
+  </group>
 
   <!-- arecord -l will show available input devices, use the car number as
       the first number and the subdevice number as the second in a string
