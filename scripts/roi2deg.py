@@ -10,7 +10,7 @@ class Roi2Deg(object):
 
     def __init__(self):
         rospy.init_node('roi2deg', anonymous=True)
-        rospy.Subscriber("roi", RegionOfInterest, callback)
+        rospy.Subscriber("roi", RegionOfInterest, self.callback)
         image_height = rospy.get_param("/IMAGE_HEIGHT")
         image_width = rospy.get_param("/IMAGE_WIDTH")
         print "(width, height) = (%d, %d)" % (image_width, image_height)
@@ -25,7 +25,7 @@ class Roi2Deg(object):
         rospy.loginfo("height :"+str(data.height)+"\n")
         rospy.loginfo("width :"+str(data.width)+"\n")
 
-        pub.publish(1 if np.random.randint() % 2 = 0 else -1)
+        self.pub.publish(1 if np.random.randint(2) == 0 else -1)
     
 
 if __name__=="__main__":
