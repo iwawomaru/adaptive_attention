@@ -1,17 +1,21 @@
+
 <launch>
-  <node name="republish" type="republish" pkg="image_transport" output="screen" args="compressed in:=/raspi_cam/camera/image out:=/camera/image" />
 
+  <node name="republish" type="republish" pkg="image_transport" output="screen" 
+	args="compressed in:=/raspi_cam/camera/image out:=/camera/image" />
+  
   <arg name="auto_face_tracking" default="True" />
-
-  <node pkg="pi_face_tracker" name="pi_face_tracker" type="face_tracker.py" output="screen">
+  
+  <node pkg="pi_face_tracker" name="pi_face_tracker" 
+	type="face_tracker.py" output="screen">
     <!--remap the topics if using multiple cameras -->
     <remap from="input_rgb_image" to="camera/image" />
     <remap from="output_image" to="camera/pi_face_tracker/image" />
-
+    
     <param name="auto_face_tracking" value="$(arg auto_face_tracking)" />
     <param name="image_transport" value="compressed" />
     <param name="camera_name" value="camera" />
-
+    
     <rosparam>
       use_haar_only: False
       use_depth_for_detection: False
@@ -33,18 +37,23 @@
       feature_type: 0 <!-- 0 = Good Features To Track, 1 = SURF -->
       surf_hessian_quality: 100
     </rosparam>
-
-        <param name="cascade_frontal_alt" value="$(find pi_face_tracker)/params/haarcascade_frontalface_alt.xml" />
-        <param name="cascade_frontal_alt2" value="$(find pi_face_tracker)/params/haarcascade_frontalface_alt2.xml" />
-        <param name="cascade_profile" value="$(find pi_face_tracker)/params/haarcascade_profileface.xml" />
-</node>
+    
+    <param name="cascade_frontal_alt" 
+	   value="$(find pi_face_tracker)/params/haarcascade_frontalface_alt.xml" />
+    <param name="cascade_frontal_alt2" 
+	   value="$(find pi_face_tracker)/params/haarcascade_frontalface_alt2.xml" />
+    <param name="cascade_profile" 
+	   value="$(find pi_face_tracker)/params/haarcascade_profileface.xml" />
+  </node>
  
   <arg name="ns" default="audio_mp3"/>
-
+  
   <group ns="$(arg ns)">
-  <node name="audio_play" pkg="audio_play" type="audio_play" output="screen">
-    <param name="dst" value="alsasink"/>
-  </node>
+    <node name="audio_play" pkg="audio_play" type="audio_play" output="screen">
+      <param name="dst" value="alsasink"/>
+    </node>
   </group>
-
+  
+  <node name="roi2deg" type="roi2deg.py" pkg="adaptive_attention" output="screen" />
+  
 </launch>

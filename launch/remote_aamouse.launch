@@ -1,0 +1,31 @@
+<launch>
+
+  <arg name="IMAGE_WIDTH"/>
+  <arg name="IMAGE_HEIGHT"/>
+
+  <group ns="raspi_cam">
+    <node machine="pi" name="raspicam_raw" pkg="raspicam" type="raspicam_node">
+      <param name="width" value="$(arg IMAGE_WIDTH)"/>
+      <param name="height" value="$(arg IMAGE_HEIGHT)"/>
+    </node>
+  </group>
+
+  <!-- arecord -l will show available input devices, use the car number as
+      the first number and the subdevice number as the second in a string
+      like hw:1,0 -->
+  <arg name="device" default=""/>
+  <arg name="channels" default="1"/>
+  <arg name="sample_rate" default="16000"/>
+  <arg name="ns" default="audio_mp3"/>
+
+  <group ns="$(arg ns)">
+    <node machine="pi" name="audio_capture" pkg="audio_capture" 
+	  type="audio_capture" output="screen">
+      <param name="bitrate" value="128"/>
+      <param name="device" value="$(arg device)"/>
+      <param name="channels" value="$(arg channels)"/>
+      <param name="sample_rate" value="$(arg sample_rate)"/>
+    </node>
+  </group>
+  
+</launch>

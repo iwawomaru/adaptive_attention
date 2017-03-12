@@ -1,0 +1,19 @@
+<launch>
+    <include file="$(find adaptive_attention)/launch/aa.machine"/>
+
+    <arg name="IMAGE_WIDTH" value="320"/>
+    <arg name="IMAGE_HEIGHT" value="240"/>
+    <param name="IMAGE_WIDTH" value="$(arg IMAGE_WIDTH)"/>
+    <param name="IMAGE_HEIGHT" value="$(arg IMAGE_HEIGHT)"/>
+
+    <include file="$(find adaptive_attention)/launch/aaserver.launch"/>
+
+    <include file="$(find adaptive_attention)/launch/remote_aamouse.launch">
+      <arg name="IMAGE_WIDTH" value="$(arg IMAGE_WIDTH)"/>
+      <arg name="IMAGE_HEIGHT" value="$(arg IMAGE_HEIGHT)"/>      
+    </include>
+
+    <node name="start_capture" type="call_camera_start.py" pkg="adaptive_attention" 
+	  output="screen"/>
+
+</launch>
