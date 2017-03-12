@@ -3,7 +3,7 @@ import rospy
 from std_msgs.msg import Int16
 import wiringpi2
 import signal
-
+import sys
 
 class ServoControl(object):
 
@@ -35,7 +35,7 @@ class ServoControl(object):
         sys.exit(0)
 
     def callback(self, deg_control):
-
+        print "call back"
         self.current_deg += deg_control
         self.current_deg = min(max(self.RIGHT, self.current_deg), self.LEFT)
         wiringpi2.pwmWrite(self.gp_out, self.current_deg)
